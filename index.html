@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1729">
+  <meta name="description" content="舒爾特數字練習：順序、倒序、游動與閃爍。最佳成績保存在你的瀏覽器。">
+  <title>舒爾特練習</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230c1729'/%3E%3Crect x='9' y='9' width='21' height='21' rx='4' fill='%2354e2c1'/%3E%3Crect x='34' y='9' width='21' height='21' rx='4' fill='%232b425d'/%3E%3Crect x='9' y='34' width='21' height='21' rx='4' fill='%232b425d'/%3E%3Crect x='34' y='34' width='21' height='21' rx='4' fill='%232b425d'/%3E%3Ctext x='19.5' y='25' text-anchor='middle' font-family='sans-serif' font-size='18' font-weight='bold' fill='%230c1729'%3E1%3C/text%3E%3C/svg%3E">
+  <style>
+    :root{font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;color:#e9f1f7;background:#0c1729;font-size:16px}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 76% 0%,#18385a 0%,transparent 35%),#0c1729}button,select{font:inherit}button{cursor:pointer}
+    .shell{width:min(1120px,100%);margin:auto;padding:24px clamp(18px,4vw,42px) 54px}[hidden]{display:none!important}
+    header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:28px}h1{font-size:clamp(1.5rem,3vw,2rem);letter-spacing:.04em;margin:0;font-weight:750}.brand{display:flex;align-items:center;gap:12px}.brandmark{width:36px;height:36px;border:2px solid #54e2c1;border-radius:9px;display:grid;place-items:center;color:#54e2c1;font-weight:850}.header-note{font-size:.875rem;color:#97acc1}
+    main{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:32px;align-items:start}.play{min-width:0}.config{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:18px}.control{min-width:145px;flex:1;display:grid;gap:8px}.control label{font-size:.875rem;color:#a8bed1;font-weight:650}select{width:100%;appearance:none;padding:12px 36px 12px 14px;border:1px solid #39526a;border-radius:10px;color:#eff7fb;background:#172b40 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%23b5c9da' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center;min-height:48px}select:focus-visible,button:focus-visible{outline:3px solid #64e8cf;outline-offset:3px}
+    .status{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:15px}.stat{background:#14273b;border:1px solid #2a425a;border-radius:12px;padding:12px 15px;min-height:75px}.stat small{display:block;color:#91aabe;font-size:.8125rem;margin-bottom:4px}.stat strong{display:block;font-size:1.35rem;font-variant-numeric:tabular-nums;line-height:1.2;white-space:nowrap}.stat.next strong{color:#54e2c1}
+    .board-wrap{border:1px solid #36516c;background:#14283d;border-radius:18px;padding:clamp(10px,2vw,18px);box-shadow:0 22px 55px #06111e75}.board{position:relative;display:grid;grid-template-columns:repeat(var(--n),1fr);gap:clamp(6px,1.2vw,10px);aspect-ratio:1;max-width:610px;margin:auto}.tile{position:relative;display:grid;place-items:center;overflow:hidden;border:1px solid #3a5770;border-radius:clamp(8px,1.5vw,13px);background:#20394f;color:#eef7f9;font-size:clamp(1.25rem,5vw,2.15rem);font-weight:750;font-variant-numeric:tabular-nums;transition:background .17s,border-color .17s,transform .17s;touch-action:manipulation}.tile:hover:not(:disabled){background:#2a4a60;border-color:#6a9eb0}.tile:active:not(:disabled){transform:scale(.96)}.tile.correct{background:#194b4b;color:#8df3d8;border-color:#319a88}.tile.wrong{animation:wrong .35s ease}.tile span{display:block;position:relative;line-height:1;pointer-events:none}.board.moving .tile{position:absolute;width:var(--float-size);height:var(--float-size);border-radius:50%;font-size:clamp(1rem,3vw,1.55rem);z-index:1}.board.moving .tile:hover{z-index:3}.board.moving .tile.correct{opacity:.18;pointer-events:none}.board.flash .tile span{animation:flash 2.8s linear infinite;animation-delay:var(--delay)}.tile:disabled{cursor:default}
+    @keyframes flash{0%,38%,54%,100%{opacity:1}39%,53%{opacity:.18}}@keyframes wrong{50%{background:#753b49;border-color:#ef8798}}
+    .actions{display:flex;align-items:center;gap:12px;margin-top:16px}.primary{border:0;border-radius:10px;padding:12px 20px;background:#54e2c1;color:#0a292c;font-weight:800;min-height:48px}.primary:hover{background:#80efd8}.message{color:#a8bed0;font-size:.9rem;line-height:1.5}.message.success{color:#70e6c7}
+    aside{border:1px solid #2b435b;border-radius:16px;background:#14273b;padding:21px}aside h2{font-size:1.05rem;margin:0 0 15px}.best-value{color:#54e2c1;font-size:2.2rem;letter-spacing:-.04em;font-weight:800;font-variant-numeric:tabular-nums;margin:4px 0}.detail{font-size:.875rem;color:#a6bacc;line-height:1.55;margin:0}.divider{height:1px;background:#2c4358;margin:21px 0}.instructions{margin:0;padding-left:21px;line-height:1.8;color:#b5c8d8;font-size:.9rem}.privacy{font-size:.825rem;color:#8fa8bb;line-height:1.55;margin:17px 0 0}.results{margin-top:12px;font-size:.875rem;color:#b5c8d8}.results strong{color:#e8f8f6}.clear{margin-top:22px;background:transparent;border:1px solid #446076;color:#b8cddd;padding:9px 12px;border-radius:8px;font-size:.875rem}.clear:hover{color:#fff;border-color:#a8c9d4}
+    @media(max-width:860px){main{grid-template-columns:1fr}aside{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}.divider{display:none}.instructions-area{grid-column:2;grid-row:1 / span 3}.clear{grid-column:1}.privacy{grid-column:1}}@media(max-width:580px){.shell{padding:20px 14px 36px}header{margin-bottom:20px}.header-note{display:none}.config{gap:8px}.control{min-width:calc(50% - 4px)}.control:last-child{min-width:100%}.status{gap:6px}.stat{padding:10px 8px;min-height:69px}.stat strong{font-size:1.16rem}.board-wrap{border-radius:13px}.tile{font-size:clamp(1.15rem,7vw,1.8rem)}.board.moving .tile{font-size:clamp(.875rem,3.5vw,1.2rem)}aside{display:block;margin-top:0}.divider{display:block}.actions{align-items:flex-start;flex-direction:column}.message{min-height:1.4em}}@media(prefers-reduced-motion:reduce){.board.flash .tile span{animation-duration:5s}.tile{transition:none}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header><div class="brand"><span class="brandmark" aria-hidden="true">1</span><h1>舒爾特練習</h1></div><span class="header-note">看見下一個數字，依序點擊</span></header>
+    <main>
+      <section class="play" aria-label="遊戲盤面">
+        <div class="config">
+          <div class="control"><label for="size">盤面</label><select id="size"><option value="3">3 × 3｜入門</option><option value="4">4 × 4｜練習</option><option value="5" selected>5 × 5｜標準</option></select></div>
+          <div class="control"><label for="order">順序</label><select id="order"><option value="up">由小到大</option><option value="down">由大到小</option></select></div>
+          <div class="control"><label for="effect">數字效果</label><select id="effect"><option value="still">靜態</option><option value="moving">游動</option><option value="flash">閃爍</option></select></div>
+        </div>
+        <div class="status" aria-live="polite"><div class="stat next"><small>下一個</small><strong id="next">1</strong></div><div class="stat"><small>時間</small><strong id="timer">00:00.00</strong></div><div class="stat"><small>進度</small><strong id="progress">0 / 25</strong></div></div>
+        <div class="board-wrap" id="board-wrap" hidden><div class="board" id="board" aria-label="舒爾特數字盤面"></div></div>
+        <div class="actions"><button class="primary" id="restart" type="button">開始</button><span class="message" id="message" role="status">選好模式後按開始</span></div>
+      </section>
+      <aside aria-label="成績與玩法">
+        <div><h2>這個模式的最佳成績</h2><div class="best-value" id="best">—</div><p class="detail" id="mode-label">5 × 5 · 由小到大 · 靜態</p><p class="results" id="last-result"></p></div>
+        <div class="divider"></div>
+        <div class="instructions-area"><h2>玩法</h2><ol class="instructions"><li>選好模式，按開始顯示盤面並開始計時。</li><li>依「下一個」的順序點完整張盤面；按錯不會結束。</li><li>換模式會回到待開始狀態。</li></ol></div>
+        <p class="privacy">最佳時間只保存在此裝置的這個瀏覽器。無需登入，也不使用 Cookie；清除網站資料或使用無痕模式可能使紀錄消失。</p>
+        <button class="clear" id="clear" type="button">清除所有最佳成績</button>
+      </aside>
+    </main>
+  </div>
+  <script>
+    (()=>{
+      const $=id=>document.getElementById(id), size=$('size'),order=$('order'),effect=$('effect'),board=$('board'),boardWrap=$('board-wrap'),restart=$('restart');
+      const next=$('next'),timer=$('timer'),progress=$('progress'),message=$('message'),best=$('best'),modeLabel=$('mode-label'),lastResult=$('last-result');
+      const storeKey='schulte-records-v1'; let records={};
+      try{const saved=JSON.parse(localStorage.getItem(storeKey)||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))records=saved}catch{}
+      let numbers=[],index=0,started=0,elapsed=0,frame=0,moveFrame=0,moveTime=0,drifters=[],finished=false;
+      const key=()=>`${size.value}-${order.value}-${effect.value}`;
+      const format=ms=>{let c=Math.floor(ms/10);const mins=Math.floor(c/6000);c%=6000;return `${String(mins).padStart(2,'0')}:${String(Math.floor(c/100)).padStart(2,'0')}.${String(c%100).padStart(2,'0')}`};
+      const labels={still:'靜態',moving:'游動',flash:'閃爍'};
+      function refreshBest(){const value=records[key()];best.textContent=Number.isFinite(value)?format(value):'—';modeLabel.textContent=`${size.value} × ${size.value} · ${order.value==='up'?'由小到大':'由大到小'} · ${labels[effect.value]}`}
+      function drawTime(){if(started&&!finished){elapsed=performance.now()-started;timer.textContent=format(elapsed);frame=requestAnimationFrame(drawTime)}}
+      function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
+      function placeDrifter(d){d.tile.style.left=`${d.x*100}%`;d.tile.style.top=`${d.y*100}%`}
+      function drift(now){if(effect.value!=='moving'||finished)return;const dt=Math.min((now-moveTime)/1000,.05);moveTime=now;
+        for(const d of drifters){if(d.tile.disabled)continue;d.x+=d.vx*dt;d.y+=d.vy*dt;if(d.x<0||d.x>1-d.s){d.x=Math.max(0,Math.min(1-d.s,d.x));d.vx*=-1}if(d.y<0||d.y>1-d.s){d.y=Math.max(0,Math.min(1-d.s,d.y));d.vy*=-1}}
+        for(let i=0;i<drifters.length;i++){const a=drifters[i];if(a.tile.disabled)continue;for(let j=i+1;j<drifters.length;j++){const b=drifters[j];if(b.tile.disabled)continue;let dx=(a.x+a.s/2)-(b.x+b.s/2),dy=(a.y+a.s/2)-(b.y+b.s/2);let distance=Math.hypot(dx,dy),minimum=(a.s+b.s)*.49;if(distance>=minimum)continue;if(distance<.0001){dx=.001;distance=.001}const nx=dx/distance,ny=dy/distance,shift=(minimum-distance)/2;a.x+=nx*shift;a.y+=ny*shift;b.x-=nx*shift;b.y-=ny*shift;const av=a.vx*nx+a.vy*ny,bv=b.vx*nx+b.vy*ny;a.vx+=(bv-av)*nx;a.vy+=(bv-av)*ny;b.vx+=(av-bv)*nx;b.vy+=(av-bv)*ny}}
+        for(const d of drifters){d.x=Math.max(0,Math.min(1-d.s,d.x));d.y=Math.max(0,Math.min(1-d.s,d.y));placeDrifter(d)}moveFrame=requestAnimationFrame(drift)}
+      function reset(){cancelAnimationFrame(frame);cancelAnimationFrame(moveFrame);started=0;elapsed=0;finished=false;index=0;drifters=[];const n=Number(size.value),total=n*n,numericSize={3:.235,4:.17,5:.125}[n];numbers=shuffle(Array.from({length:total},(_,i)=>i+1));board.style.setProperty('--n',n);board.style.setProperty('--float-size',`${numericSize*100}%`);board.className=`board ${effect.value==='still'?'':effect.value}`;board.replaceChildren();
+        numbers.forEach((value,i)=>{const tile=document.createElement('button');tile.type='button';tile.className='tile';tile.setAttribute('aria-label',String(value));tile.style.setProperty('--delay',`${-((i*7)%19)/10}s`);const span=document.createElement('span');span.textContent=value;tile.append(span);tile.addEventListener('click',()=>choose(value,tile));board.append(tile);if(effect.value==='moving'){const angle=Math.random()*Math.PI*2,speed=matchMedia('(prefers-reduced-motion: reduce)').matches?0.045:0.11;const d={tile,s:numericSize,x:(i%n+.5)/n-numericSize/2,y:(Math.floor(i/n)+.5)/n-numericSize/2,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed};drifters.push(d);placeDrifter(d)}});
+        boardWrap.hidden=true;restart.textContent='開始';next.textContent=order.value==='up'?'1':String(total);timer.textContent='00:00.00';progress.textContent=`0 / ${total}`;message.textContent='選好模式後按開始';message.className='message';lastResult.textContent='';refreshBest()}
+      function start(){if(started)return;boardWrap.hidden=false;started=performance.now();frame=requestAnimationFrame(drawTime);if(effect.value==='moving'){moveTime=started;moveFrame=requestAnimationFrame(drift)}restart.textContent='重新開始';message.textContent=`找出 ${next.textContent}，依序點擊`}
+      function choose(value,tile){if(!started||finished||tile.disabled)return;const total=Number(size.value)**2,wanted=order.value==='up'?index+1:total-index;
+        if(value!==wanted){tile.classList.remove('wrong');void tile.offsetWidth;tile.classList.add('wrong');return}
+        tile.disabled=true;tile.classList.add('correct');index++;progress.textContent=`${index} / ${total}`;
+        if(index===total){finished=true;cancelAnimationFrame(frame);cancelAnimationFrame(moveFrame);elapsed=performance.now()-started;timer.textContent=format(elapsed);next.textContent='完成';const prior=records[key()];const isBest=!Number.isFinite(prior)||elapsed<prior;
+          if(isBest){records[key()]=elapsed;try{localStorage.setItem(storeKey,JSON.stringify(records))}catch{message.textContent='完成！瀏覽器目前無法保存紀錄';message.className='message success';lastResult.textContent=`本次：${format(elapsed)}`;refreshBest();return}}
+          refreshBest();message.textContent=isBest?'新的最佳成績！':'完成！再來一局？';message.className='message success';restart.textContent='再玩一次';lastResult.innerHTML=`本次：<strong>${format(elapsed)}</strong>`;
+        }else{next.textContent=String(order.value==='up'?index+1:total-index);message.textContent='依序找出下一個數字'}}
+      [size,order,effect].forEach(el=>el.addEventListener('change',reset));restart.addEventListener('click',()=>{if(started)reset();start()});
+      $('clear').addEventListener('click',()=>{if(!confirm('要清除所有模式的最佳成績嗎？'))return;records={};try{localStorage.removeItem(storeKey)}catch{}refreshBest();lastResult.textContent='最佳成績已清除'});
+      reset();
+      if(document.modelContext?.registerTool){
+        const tools=[
+          {name:'configure_schulte_game',title:'設定舒爾特遊戲',description:'選擇盤面、順序與數字效果，並準備一局待開始的遊戲。',inputSchema:{type:'object',properties:{size:{type:'integer',enum:[3,4,5]},order:{type:'string',enum:['up','down']},effect:{type:'string',enum:['still','moving','flash']}},required:['size','order','effect'],additionalProperties:false},annotations:{readOnlyHint:false},execute(input){if(!input||![3,4,5].includes(input.size)||!['up','down'].includes(input.order)||!['still','moving','flash'].includes(input.effect))throw Error('無效的遊戲設定');size.value=String(input.size);order.value=input.order;effect.value=input.effect;reset();return {size:input.size,order:input.order,effect:input.effect,status:'ready',next:Number(next.textContent)}}},
+          {name:'start_schulte_game',title:'開始舒爾特遊戲',description:'顯示盤面並立刻開始計時。',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:false},execute(){if(started)throw Error('遊戲已開始，請先換模式或按重新開始');start();return {status:'playing',next:Number(next.textContent)}}},
+          {name:'read_schulte_best',title:'查看最佳時間',description:'查看目前遊戲模式在此瀏覽器保存的最佳時間。',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute(){return {size:Number(size.value),order:order.value,effect:effect.value,bestMilliseconds:Number.isFinite(records[key()])?records[key()]:null}}}
+        ];
+        for(const tool of tools){try{Promise.resolve(document.modelContext.registerTool(tool)).catch(()=>{})}catch{}}
+      }
+    })();
+  </script>
+</body>
+</html>
